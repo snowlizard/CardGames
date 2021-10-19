@@ -1,5 +1,6 @@
 import Phaser, { Game } from 'phaser';
 import Menu from './scenes/menu';
+import Preload from './scenes/preload';
 
 const canvas = document.getElementById('app');
 const config = {
@@ -11,6 +12,7 @@ const config = {
         default: 'arcade'
     },
     scene: [
+        Preload,
         Menu
     ]
 };
