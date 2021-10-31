@@ -1,6 +1,14 @@
 import Phaser from 'phaser';
 
 export class Button extends Phaser.GameObjects.Sprite {
+    /**
+     * 
+     * @param {Phaser.Scene} scene - The current phaser scene 
+     * @param {integer} x - X position for button
+     * @param {integer} y - Y position for button
+     * @param {string} text - Text to be displayed on button
+     * @param {Function} callback - A function to be called when there is a click even
+     */
     constructor(scene, x, y, text, callback ){
         super(scene, x, y, text);
         // Button Text
@@ -12,7 +20,6 @@ export class Button extends Phaser.GameObjects.Sprite {
         this.txt.setX( this.getCenter().x)
             .setY( this.getCenter().y)
             .setScrollFactor(0,0);
-        //this.text = this.setText().setScrollFactor(0,0);
 
         //Button Event
         this.setInteractive({useHandCursor: true})
