@@ -1,0 +1,14 @@
+create a deck of cards be able to pull random cards from deck.
+
+deal 2 card to dealer
+deal 2 cards to the player, give option to hit or stand.
+
+hit - if player hits deal them another card if card is over 21 player busts
+stand - player stands with their cards and dealer proceeds with their turn.
+
+dealer turn:
+    if dealer total is >= 17 do not take turn
+    dealer draws until bust or total >= 17
+
+asses who won round
+next round

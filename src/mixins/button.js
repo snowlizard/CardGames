@@ -2,8 +2,8 @@ import Phaser from 'phaser';
 
 export class Button extends Phaser.GameObjects.Sprite {
     /**
-     * 
-     * @param {Phaser.Scene} scene - The current phaser scene 
+     * Phaser GameObjects Sprite
+     * @param {Phaser.Scene} scene - The current phaser scene [Phaser.Scene]
      * @param {integer} x - X position for button
      * @param {integer} y - Y position for button
      * @param {string} text - Text to be displayed on button

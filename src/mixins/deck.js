@@ -1,3 +1,7 @@
+/**
+ * Array of arrays containing 4 groups of playing cards.
+ * spades, clubs, diamonds, hearts
+ */
 export let deck = [
     ['2-clubs', 2],
     ['3-clubs', 3],
@@ -58,7 +62,10 @@ export let deck = [
     ['K-spades', 10],
 ];
 
-// Returns a random number from deck
+/**
+ * 
+ * @returns returns a random number between 0 and 51
+ */
 export let randomCardIndex = () => {
     return Math.floor(Math.random() * 51 )
 }
