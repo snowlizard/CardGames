@@ -12,7 +12,7 @@ class Solitaire extends Scene{
         this.playerCardsXY = [300, 400, 390, 400];
         this.dealerCardsXY = [300, 100, 390, 100];
         this.newCardXcoords = [390];
-        this.newDealerXcoord= [390];
+        this.newDealerX     = [390];
         this.temporaryCards = [];
         this.playerTotal = 0;
         this.dealerTotal = 0;
@@ -38,16 +38,17 @@ class Solitaire extends Scene{
         this.dealerCards.add(new RandomCard(this, this.dealerCardsXY[2], this.dealerCardsXY[3]));
         this.dealerTotal = this.dealerCardList[0].getData('value') + this.dealerCardList[1].getData('value');
 
+        if(this.playerTotal >= 21) this.round_over = true;
+        
         // give player another card
         // need to add logic for ace
         this.Hit = new Button(this, 100, 350, 'Hit', () => {
-            let tmpIndex = randomCardIndex();
-            let tmpCard = this.add.image(this.newCardXcoords[this.newCardXcoords.length -1] + 20, 400, deck[tmpIndex][0]).setScale(0.8);
+            if(this.playerTotal >= 21) this.round_over = true;
+            else{
+            this.cards.add(new RandomCard(this, this.newCardXcoords[this.newCardXcoords.length - 1] + 20, this.playerCardsXY[1]));
             this.newCardXcoords.push(this.newCardXcoords[this.newCardXcoords.length - 1] + 20);
-            this.playerTotal += deck[tmpIndex][1];
-            this.temporaryCards.push(tmpCard);
-
-            if(this.playerTotal > 21) this.round_over = true
+            this.playerTotal += this.playerCardList[this.playerCardList.length -1].getData('value');
+            };
         });
 
         // Dealer takes turn
@@ -60,10 +61,22 @@ class Solitaire extends Scene{
 
 
     update = () => {
-        if(this.playerTotal > 21){
-            this.Hit.disableInteractive();
-            this.Hit.tint = 0.5;
+        if(this.round_over){
+            // dealer takes turn
+            while (this.dealerTotal < 17){
+                let newX = this.newDealerX[ this.newDealerX.length -1 ] + 20
+                this.dealerCards.add(new RandomCard(this, newX, this.dealerCardsXY[1]));
+                this.newDealerX.push(newX);
+                this.dealerTotal += this.dealerCardList[this.dealerCardList.length - 1].getData('value');
+            };
         }
+    }
+};
+
+export default Solitaire;
+
+
+/**
         if(this.round_over){
             // Dealer takes turn
             while (this.dealerTotal < 17){
@@ -113,7 +126,4 @@ class Solitaire extends Scene{
             this.dealerCard2 = this.add.image(this.dealerCards.card2[0], this.dealerCards.card2[1],deck[this.dealerIndex2][0]).setScale(0.8);
             this.dealerTotal = deck[this.dealerIndex1][1] + deck[this.dealerIndex2][1];
         }
-    }
-};
-
-export default Solitaire;
+**/
