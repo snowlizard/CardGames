@@ -72,7 +72,7 @@ class Preload extends Phaser.Scene {
     };
 
     create = () => {
-        this.scene.start('solitaire');
+        this.scene.start('blackjack');
     }
 }
 
