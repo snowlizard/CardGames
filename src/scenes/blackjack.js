@@ -5,13 +5,11 @@ import { Button } from '../mixins/button';
 class Blackjack extends Scene{
     /**
      * Phaser scene of the card game solitaire
+     * this.x +- number are for offsetting game items
+     * from the center of the screen
      */
     constructor(){
         super('blackjack');
-        this.playerCardsXY = [300, 400, 390, 400];
-        this.dealerCardsXY = [300, 100, 390, 100];
-        this.newCardXcoords = [390];
-        this.newDealerX     = [390];
         this.temporaryCards = [];
         this.playerTotal = 0;
         this.dealerTotal = 0;
@@ -19,11 +17,20 @@ class Blackjack extends Scene{
     };
 
     create = () => {
-        // X Y coordinates for game results
         this.X = this.cameras.main.centerX;
         this.Y = this.cameras.main.centerY;
-        this.gameResult = this.gameResult = this.add.text(this.X, this.Y, "",{ font: '32px times' });
+
+        this.playerCardsXY = [this.X - 10, 400, this.X + 80, 400];
+        this.dealerCardsXY = [this.X - 10, 100, this.X + 80, 100];
+        this.newCardXcoords = [this.X + 80];
+        this.newDealerX     = [this.X + 80];
+
+        this.gameResult = this.gameResult = this.add.text(this.X + 30, this.Y - 120, "",{ font: '32px times' });
         this.gameResult.setVisible(false).setOrigin(0.5);
+
+        // Labels
+        this.add.text(this.X, 460, 'Player Cards', {font:'16px times'});
+        this.add.text(this.X, 20, 'Dealer Cards', {font:'16px times'});
 
         // Card groups
         this.cards = this.add.group({classType: RandomCard});
@@ -47,7 +54,7 @@ class Blackjack extends Scene{
         
         // give player another card
         // need to add logic for ace
-        this.Hit = new Button(this, 100, 350, 'Hit', () => {
+        this.Hit = new Button(this, this.X - 250, 350, 'Hit', () => {
             if(this.playerTotal >= 21) this.round_over = true;
             else{
                 // each new cards has an X offset of +20 so the previous cards number can be visible
@@ -55,22 +62,30 @@ class Blackjack extends Scene{
                 this.cards.add(new RandomCard(this, this.newCardXcoords[this.newCardXcoords.length - 1] + 20, this.playerCardsXY[1]));
                 this.newCardXcoords.push(this.newCardXcoords[this.newCardXcoords.length - 1] + 20);
                 this.playerTotal += this.playerCardList[this.playerCardList.length -1].getData('value');
+                if( this.playerTotal > 21){
+                    this.playerCardList.forEach( card => {
+                        if(card.getData('value') == 11){
+                            this.playerTotal -= 10
+                            console.log(this.playerTotal)
+                        }
+                    });
+                }
                 if(this.playerTotal >= 21) this.round_over = true;
             };
         });
 
         // Player ends turn
-        this.Stand = new Button(this, 100, 410, 'Stand', () => {
+        this.Stand = new Button(this, this.X - 250, 410, 'Stand', () => {
             this.round_over = true;
         });
         
         // Play again button - for some reason extra cards not resetting
-        this.playAgain = new Button(this, 100, 290, 'Reset', () => {
+        this.playAgain = new Button(this, this.X - 250, 290, 'Reset', () => {
 
             // reset all values to those of the start of the game
             this.gameResult.setVisible(false);
-            this.newCardXcoords = [390];
-            this.newDealerX     = [390];
+            this.newCardXcoords = [this.X + 80];
+            this.newDealerX     = [this.X + 80];
             this.temporaryCards = [];
             this.playerTotal = 0;
             this.dealerTotal = 0;
