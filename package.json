@@ -1,7 +1,7 @@
 {
-  "name": "cardgames",
+  "name": "jsgames",
   "version": "1.0.0",
-  "description": "card games, solitaire",
+  "description": "card games, blackjack",
   "main": "/src/app.js",
   "scripts": {
     "start": "webpack serve --mode development --entry ./src/app.js",
@@ -14,7 +14,7 @@
   },
   "keywords": [
     "cards",
-    "solitaire"
+    "blackjack"
   ],
   "author": "Julian",
   "license": "CC0-1.0",
