@@ -5,7 +5,7 @@ import Blackjack from './scenes/blackjack';
 
 
 const width = window.innerWidth * window.devicePixelRatio;
-const height = 800;
+const height = window.innerHeight * window.devicePixelRatio;
 
 const canvas = document.getElementById('app');
 const config = {

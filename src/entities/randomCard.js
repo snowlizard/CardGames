@@ -9,7 +9,7 @@ export class RandomCard extends Phaser.GameObjects.Image{
         this.scene = scene;
         this.setX = x;
         this.setY = y;
-        this.setScale(0.8);
+        this.setScale(1.5);
         this.scene.add.existing(this);
         this.index = randomCardIndex();
         this.setTexture(deck[this.index][0]);
