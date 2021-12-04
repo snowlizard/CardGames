@@ -8,7 +8,12 @@ class Preload extends Phaser.Scene {
     preload = () => {
         // Buttons
         this.load.image('button', 'assets/sprites/blue_button04.png');
-        this.load.image('button_hover', 'assets/sprites/blue_button05.png')
+        this.load.image('button_hover', 'assets/sprites/blue_button05.png');
+
+        // Tic Tac Toe Assets
+        this.load.image('X', 'assets/sprites/X.png');
+        this.load.image('O', 'assets/sprites/O.png');
+        this.load.image('board', 'assets/sprites/board.png');
 
         // Cards clubs
         this.load.image('2-clubs', 'assets/cards/2-clubs.png');
@@ -72,7 +77,7 @@ class Preload extends Phaser.Scene {
     };
 
     create = () => {
-        this.scene.start('blackjack');
+        this.scene.start('tictactoe');
     }
 }
 

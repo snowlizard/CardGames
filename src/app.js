@@ -2,6 +2,7 @@ import Phaser, { Game } from 'phaser';
 import Menu from './scenes/menu';
 import Preload from './scenes/preload';
 import Blackjack from './scenes/blackjack';
+import TicTacToe from './scenes/tictactoe';
 
 
 const width = window.innerWidth * window.devicePixelRatio;
@@ -25,6 +26,7 @@ const config = {
     },
     scene: [
         Preload,
+        TicTacToe,
         Blackjack,
         Menu
     ]
