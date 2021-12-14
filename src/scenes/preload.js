@@ -11,6 +11,7 @@ class Preload extends Phaser.Scene {
         this.load.image('button_hover', 'assets/sprites/blue_button05.png');
 
         // Tic Tac Toe Assets
+        this.load.image('tile', 'assets/sprites/blank_tile.png');
         this.load.image('X', 'assets/sprites/X.png');
         this.load.image('O', 'assets/sprites/O.png');
         this.load.image('board', 'assets/sprites/board.png');
