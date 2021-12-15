@@ -16,6 +16,9 @@ class Preload extends Phaser.Scene {
         this.load.image('O', 'assets/sprites/O.png');
         this.load.image('board', 'assets/sprites/board.png');
 
+        // irasutoya
+        this.load.image('dealer', 'assets/sprites/casino_dealer_woman.png');
+
         // Cards clubs
         this.load.image('2-clubs', 'assets/cards/2-clubs.png');
         this.load.image('3-clubs', 'assets/cards/3-clubs.png');

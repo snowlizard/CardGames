@@ -20,6 +20,9 @@ class Blackjack extends Scene{
         this.X = this.cameras.main.centerX;
         this.Y = this.cameras.main.centerY;
 
+        // load dealer image
+        this.dealer = this.add.image(this.X - 350, this.Y - 300, 'dealer');
+
         this.playerCardsXY = [this.X - 20, this.Y + 200, this.X + 140, this.Y + 200];
         this.dealerCardsXY = [this.X - 20, this.Y - 200, this.X + 140, this.Y - 200];
         this.newCardXcoords = [this.X + 140];
