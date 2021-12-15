@@ -51,6 +51,8 @@ class TicTacToe extends Phaser.Scene{
             child.setInteractive({useHandCursor: true}).on('pointerdown', () => {
                 if(this.turn == 'x'){
                     if(child.getData('value') == ''){
+                        child.setData('value', 'x');
+                        child.setActive(false);
                         child.setTexture("X");
                         this.turn = 'o';
                     };
@@ -65,17 +67,20 @@ class TicTacToe extends Phaser.Scene{
             let done = false;
             while(!done){
                 let random = Math.floor(Math.random() * (this.tiles.getChildren().length -1));
-                let child = this.tiles.getChildren()
-                child = this.tiles.getChildren()[random];
-                console.log(child, random);
+                let child = this.tiles.getChildren()[random];
                 if(child.getData('value') === '' && child.getData('value') != 'x'){
                     child.setData('value', 'o');
+                    child.setActive(false);
                     child.setTexture('O');
                     this.turn = 'x';
                     done = true;
                 }
+                else if(this.tiles.countActive(true) == 0){
+                    done = true;
+                    console.log('later loser')
+                }
             }
-        }
+        };
     }
 }
 
