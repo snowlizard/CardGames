@@ -108,47 +108,27 @@ class TicTacToe extends Phaser.Scene{
     check_won = (token) => {
         let positions = this.tiles.getChildren();
 
-        if (positions[0].getData('value') == token &&
-            positions[1].getData('value') == token &&
-            positions[2].getData('value') == token){
+        for(let i = 0; i < 9; i += 3){
+            console.log(i, i+1, i+2)
+            if (positions[i].getData('value') == token &&
+                positions[i+1].getData('value') == token &&
+                positions[i+2].getData('value') == token){
                 return true;
             }
-        else if (positions[3].getData('value') == token &&
-                 positions[4].getData('value') == token &&
-                 positions[5].getData('value') == token){
+
+            else if (positions[0].getData('value') == token &&
+                     positions[4].getData('value') == token &&
+                     positions[8].getData('value') == token){
                     return true;
+            }
+            else if (positions[6].getData('value') == token &&
+                     positions[4].getData('value') == token &&
+                     positions[2].getData('value') == token){
+                    return true;
+            }
+            else return false;
         }
-        else if (positions[6].getData('value') == token &&
-                 positions[7].getData('value') == token &&
-                 positions[8].getData('value') == token){
-            return true;
-        }
-        else if (positions[0].getData('value') == token &&
-                 positions[3].getData('value') == token &&
-                 positions[6].getData('value') == token){
-            return true;
-        }
-        else if (positions[1].getData('value') == token &&
-                 positions[4].getData('value') == token &&
-                 positions[7].getData('value') == token){
-            return true;
-        }
-        else if (positions[2].getData('value') == token &&
-                 positions[5].getData('value') == token &&
-                 positions[8].getData('value') == token){
-            return true;
-        }
-        else if (positions[0].getData('value') == token &&
-                 positions[4].getData('value') == token &&
-                 positions[8].getData('value') == token){
-            return true;
-        }
-        else if (positions[6].getData('value') == token &&
-                 positions[4].getData('value') == token &&
-                 positions[2].getData('value') == token){
-            return true;
-        }
-        else return false;
+
     }
 }
 
