@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 
 const BannerFont = { "font": "8em courier"};
 const scoreFont  = { "font": "6em courier"};
+const roundEnd   = { "font": "10em courier"};
 
 class TicTacToe extends Phaser.Scene{
     constructor(){
@@ -10,6 +11,7 @@ class TicTacToe extends Phaser.Scene{
         this.score = 0;
         this.gameOver = false;
         this.turn = 'x';
+        this.roundResults;
     };
 
     create = () => {
@@ -36,13 +38,15 @@ class TicTacToe extends Phaser.Scene{
         this.board = this.add.image(this.centerX, this.centerY, 'board');
         this.scoreLabel = this.add.text( 75, 150,
                                         `Score: ${this.score}`, scoreFont);
+        this.roundResults = this.add.text(this.centerX, this.centerY, "", roundEnd).setOrigin(0.5);
 
         // add invisible rectangles for x/o's
         this.tiles = this.add.group();
+        let i = 0;
         this.rowsX.forEach( x => {
             this.columnsY.forEach( y => {
                 this.new = this.tiles.create(x, y, 'tile');
-                this.new.setData('value', '');
+                this.new.setData({'value': ''});
             });
         });
 
@@ -56,9 +60,11 @@ class TicTacToe extends Phaser.Scene{
                         child.setTexture("X");
                         this.turn = 'o';
                     };
+                if(this.check_won('x')) console.log("you won player!")
                 };
             });
         });
+
     };
 
     update = () => {
@@ -77,10 +83,72 @@ class TicTacToe extends Phaser.Scene{
                 }
                 else if(this.tiles.countActive(true) == 0){
                     done = true;
-                    console.log('later loser')
+                    this.gameOver = true;
                 }
-            }
+            };
+            if(this.check_won('o')) console.log("o wins")
         };
+    
+        if(this.gameOver){
+            let timer = this.time.delayedCall(2500,
+                () => {
+                    this.gameOver = false;
+                    this.tiles.getChildren().map( child => {
+                        child.setData('value', '');
+                        child.setActive(true);
+                        child.setTexture('tile');
+                        this.turn = 'x';
+                        this.roundResults.setText("");
+                    });
+                });
+        }
+
+    }
+
+    check_won = (token) => {
+        let positions = this.tiles.getChildren();
+
+        if (positions[0].getData('value') == token &&
+            positions[1].getData('value') == token &&
+            positions[2].getData('value') == token){
+                return true;
+            }
+        else if (positions[3].getData('value') == token &&
+                 positions[4].getData('value') == token &&
+                 positions[5].getData('value') == token){
+                    return true;
+        }
+        else if (positions[6].getData('value') == token &&
+                 positions[7].getData('value') == token &&
+                 positions[8].getData('value') == token){
+            return true;
+        }
+        else if (positions[0].getData('value') == token &&
+                 positions[3].getData('value') == token &&
+                 positions[6].getData('value') == token){
+            return true;
+        }
+        else if (positions[1].getData('value') == token &&
+                 positions[4].getData('value') == token &&
+                 positions[7].getData('value') == token){
+            return true;
+        }
+        else if (positions[2].getData('value') == token &&
+                 positions[5].getData('value') == token &&
+                 positions[8].getData('value') == token){
+            return true;
+        }
+        else if (positions[0].getData('value') == token &&
+                 positions[4].getData('value') == token &&
+                 positions[8].getData('value') == token){
+            return true;
+        }
+        else if (positions[6].getData('value') == token &&
+                 positions[4].getData('value') == token &&
+                 positions[2].getData('value') == token){
+            return true;
+        }
+        else return false;
     }
 }
 
