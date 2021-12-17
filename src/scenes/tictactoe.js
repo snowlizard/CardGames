@@ -20,6 +20,7 @@ class TicTacToe extends Phaser.Scene{
         this.centerX = this.cameras.main.centerX;
         this.centerY = this.cameras.main.centerY;
 
+        // Menu button
         this.toMenu = new Button(this, this.centerX - 600, this.centerY - 550, "Menu", () => {
             this.scene.start('menu');
         })
@@ -43,7 +44,9 @@ class TicTacToe extends Phaser.Scene{
         this.board = this.add.image(this.centerX, this.centerY, 'board');
         this.scoreLabel = this.add.text( 75, 150,
                                         `Score: ${this.score}`, scoreFont);
-        this.roundResults = this.add.text(this.centerX, this.centerY, "", roundEnd).setOrigin(0.5);
+        this.roundResults = this.add.text(this.centerX, this.centerY, "", roundEnd)
+                                    .setOrigin(0.5)
+                                    .setDepth(1);
 
         // add invisible rectangles for x/o's
         this.tiles = this.add.group();
@@ -55,7 +58,9 @@ class TicTacToe extends Phaser.Scene{
             });
         });
 
-        // set all children to interactive
+        // get a list of all children; set them to interactive
+        // when user clicks on tiles check if it is their turn
+        // and check if tile is blank - empty string - check if they won
         this.tiles.getChildren().map( child => {
             child.setInteractive({useHandCursor: true}).on('pointerdown', () => {
                 if(this.turn == 'x'){
@@ -65,7 +70,12 @@ class TicTacToe extends Phaser.Scene{
                         child.setTexture("X");
                         this.turn = 'o';
                     };
-                if(this.check_won('x')) console.log("you won player!")
+                    if(this.check_won('x')){
+                        this.score += 1;
+                        this.scoreLabel.text = `Score: ${this.score}`;
+                        this.roundResults.text = "You win!"
+                        this.gameOver = true;
+                    }
                 };
             });
         });
@@ -74,6 +84,9 @@ class TicTacToe extends Phaser.Scene{
 
     update = () => {
         // ai's turn
+        // ai randomly chooses any avaliable position
+        // on board - really dumb atm, check if any children(tiles)
+        // are active to determine a stalemate.
         if(this.turn == 'o'){
             let done = false;
             while(!done){
@@ -87,15 +100,27 @@ class TicTacToe extends Phaser.Scene{
                     done = true;
                 }
                 else if(this.tiles.countActive(true) == 0){
-                    done = true;
-                    this.gameOver = true;
+                    if(this.someone_wins()){
+                        done = true;
+                        this.gameOver = true;
+                    }
+                    else {
+                        this.roundResults.text = "Stalemate!"
+                        done = true;
+                        this.gameOver = true;
+                    }
                 }
             };
-            if(this.check_won('o')) console.log("o wins")
+            if(this.check_won('o')){
+                this.roundResults.text = "You Lose!";
+                this.gameOver = true;
+            }
         };
-    
+        
+        // delay a function so the game results don't disappear
+        // so fast. reset tiles group and other variables.
         if(this.gameOver){
-            let timer = this.time.delayedCall(2500,
+            let timer = this.time.delayedCall(1000,
                 () => {
                     this.gameOver = false;
                     this.tiles.getChildren().map( child => {
@@ -110,30 +135,67 @@ class TicTacToe extends Phaser.Scene{
 
     }
 
+    // checks the passed token - X or O - against
+    // all possible win scenarios returns true if 
+    // they won
     check_won = (token) => {
         let positions = this.tiles.getChildren();
 
-        for(let i = 0; i < 9; i += 3){
-            console.log(i, i+1, i+2)
-            if (positions[i].getData('value') == token &&
-                positions[i+1].getData('value') == token &&
-                positions[i+2].getData('value') == token){
-                return true;
-            }
-
-            else if (positions[0].getData('value') == token &&
-                     positions[4].getData('value') == token &&
-                     positions[8].getData('value') == token){
-                    return true;
-            }
-            else if (positions[6].getData('value') == token &&
-                     positions[4].getData('value') == token &&
-                     positions[2].getData('value') == token){
-                    return true;
-            }
-            else return false;
+        if (positions[0].getData('value') == token &&
+        positions[1].getData('value') == token &&
+        positions[2].getData('value') == token){
+            return true;
         }
+        else if (positions[3].getData('value') == token &&
+                positions[4].getData('value') == token &&
+                positions[5].getData('value') == token){
+                    return true;
+        }
+        else if (positions[6].getData('value') == token &&
+                positions[7].getData('value') == token &&
+                positions[8].getData('value') == token){
+            return true;
+        }
+        else if (positions[0].getData('value') == token &&
+                positions[3].getData('value') == token &&
+                positions[6].getData('value') == token){
+            return true;
+        }
+        else if (positions[1].getData('value') == token &&
+                positions[4].getData('value') == token &&
+                positions[7].getData('value') == token){
+            return true;
+        }
+        else if (positions[2].getData('value') == token &&
+                positions[5].getData('value') == token &&
+                positions[8].getData('value') == token){
+            return true;
+        }
+        else if (positions[0].getData('value') == token &&
+                positions[4].getData('value') == token &&
+                positions[8].getData('value') == token){
+            return true;
+        }
+        else if (positions[6].getData('value') == token &&
+                positions[4].getData('value') == token &&
+                positions[2].getData('value') == token){
+            return true;
+        }
+        else return false;
+    }
 
+    someone_wins = () => {
+        if(this.check_won('x')){
+            this.score += 1;
+            this.scoreLabel.text = `Score: ${this.score}`;
+            this.roundResults.text = "You win!"
+            return true;
+        }
+        else if (this.check_won('o')){
+            this.roundResults.text = "You Lose!";
+            return true;
+        }
+        return false;
     }
 }
 
