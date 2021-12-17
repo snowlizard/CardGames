@@ -18,6 +18,9 @@ class Preload extends Phaser.Scene {
 
         // irasutoya
         this.load.image('dealer', 'assets/sprites/casino_dealer_woman.png');
+        this.load.image('gameMan', 'assets/sprites/game_man.png');
+        this.load.image('xo' ,'assets/sprites/tictactoe_.png');
+        this.load.image('21', 'assets/sprites/21_.png');
 
         // Cards clubs
         this.load.image('2-clubs', 'assets/cards/2-clubs.png');
@@ -81,7 +84,7 @@ class Preload extends Phaser.Scene {
     };
 
     create = () => {
-        this.scene.start('tictactoe');
+        this.scene.start('menu');
     }
 }
 

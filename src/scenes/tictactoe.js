@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { Button } from '../mixins/button';
 
 const BannerFont = { "font": "8em courier"};
 const scoreFont  = { "font": "6em courier"};
@@ -18,6 +19,10 @@ class TicTacToe extends Phaser.Scene{
         // center of the screen
         this.centerX = this.cameras.main.centerX;
         this.centerY = this.cameras.main.centerY;
+
+        this.toMenu = new Button(this, this.centerX - 600, this.centerY - 550, "Menu", () => {
+            this.scene.start('menu');
+        })
 
         // coordinates for x/o on screen
         this.rowsX = [

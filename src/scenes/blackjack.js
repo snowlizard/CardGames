@@ -20,6 +20,11 @@ class Blackjack extends Scene{
         this.X = this.cameras.main.centerX;
         this.Y = this.cameras.main.centerY;
 
+        // button to menu
+        this.toMenu = new Button(this, this.X - 250, this.Y - 550, "Menu", () => {
+            this.scene.start('menu');
+        });
+
         // load dealer image
         this.dealer = this.add.image(this.X - 350, this.Y - 300, 'dealer');
 
