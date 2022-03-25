@@ -19,8 +19,7 @@ const config = {
         default: 'arcade'
     },
     scale: {
-        zoom: 2,
-        mode: Phaser.Scale.FIT,
+        mode: Phaser.Scale.RESIZE,
         width,
         height
     },
